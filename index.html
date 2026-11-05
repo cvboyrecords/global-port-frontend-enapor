@@ -209,7 +209,7 @@
             fr: { subTitle: "Port de Praia | Centre de Contrôle Exécutif International", kpi1Title: "Total Enregistrements BD", kpi2Title: "Temps d'Attente Moyen", kpi3Title: "Taux d'Utilisation", kpi4Title: "Liaison IA & WhatsApp", formTitle: "Enregistrer Opération Réelle", lblVessel: "Nom du Navire", lblOpType: "Type d'Opération", lblStatus: "Statut", btnSubmit: "Enregistrer en BD", tableTitle: "Journaux Réels de la BD (VPS)", btnRefresh: "Actualiser", thVessel: "NAVIRE", thOp: "OPÉRATION", thStatus: "STATUT", thTime: "HORODATAGE", systemStatusText: "VPS 5004 Connecté", chartTitle: "Flux Opérationnel du Port de Praia", radarTitle: "Suivi des Quais" },
             es: { subTitle: "Puerto de Praia | Centro de Control Ejecutivo Internacional", kpi1Title: "Total Registros en BD", kpi2Title: "Tiempo Medio de Espera", kpi3Title: "Ocupación de Muelle", kpi4Title: "Enlace IA y WhatsApp", formTitle: "Registrar Operación Real", lblVessel: "Nombre del Buque", lblOpType: "Tipo de Operación", lblStatus: "Estado", btnSubmit: "Guardar en Base de Datos", tableTitle: "Registros Reales de la BD (VPS)", btnRefresh: "Actualizar", thVessel: "BUQUE", thOp: "OPERACIÓN", thStatus: "ESTADO", thTime: "FECHA/HORA", systemStatusText: "VPS 5004 Conectado", chartTitle: "Flujo Operacional del Puerto de Praia", radarTitle: "Estado de Muelles" },
             ar: { subTitle: "ميناء برايا | مركز التحكم التنفيذي الدولي", kpi1Title: "إجمالي السجلات", kpi2Title: "متوسط وقت الانتظار", kpi3Title: "استغلال الأرصفة", kpi4Title: "ربط الذكاء الاصطناعي وواتساب", formTitle: "تسجيل عملية حقيقية", lblVessel: "اسم السفينة", lblOpType: "نوع العملية", lblStatus: "الحالة", btnSubmit: "حفظ في قاعدة البيانات", tableTitle: "سجلات قاعدة البيانات المباشرة (VPS)", btnRefresh: "تحديث", thVessel: "السفينة", thOp: "العملية", thStatus: "الحالة", thTime: "الوقت", systemStatusText: "VPS 5004 متصل", chartTitle: "تدفق العمليات في ميناء برايا", radarTitle: "حالة الأرصفة" },
-            zh: { subTitle: "普拉亚港 | 国际行政控制中心", kpi1Title: "数据库总记录", kpi2Title: "平均等待时间", kpi3Title: "泊位利用率", kpi4Title: "AI 与 WhatsApp 链接", formTitle: "登记实际作业", lblVessel: "船名", lblOpType: "作业类型", lblStatus: "状态", btnSubmit: "保存至数据库", tableTitle: "真实数据库日志 (VPS)", btnRefresh: "刷新", thVessel: "船舶", thOp: "作业", thStatus: "状态", thTime: "时间戳", systemStatusText: "VPS 5004 已连接", chartTitle: "普拉亚港运营流量", radarTitle: "泊位状态" }
+            zh: { subTitle: "普拉亚港 | 国际行政控制中心", kpi1Title: "数据库总记录", kpi2Title: "平均等待时间", kpi3Title: "泊位利用率", kpi4Title: "AI 与 WhatsApp 链接", formTitle: "登记实际作业", lblVessel: "船名", lblOpType: "作业类型", lblStatus: "状态", btnSubmit: "保存至数据库", tableTitle: "真实数据库日志 (VPS)", btnRefresh: "刷新", thVessel: "船舶", thOp: "作业", thStatus: "状态", thTime: "时间戳", systemStatusText: "普拉亚港运营流量", radarTitle: "泊位状态" }
         };
 
         function changeLanguage(lang) {
@@ -275,7 +275,6 @@
             });
         }
 
-        // CARREGA EXCLUSIVAMENTE DADOS REAIS DO BACKEND NO VPS
         async function loadOperations() {
             try {
                 const res = await fetch(`${API_BASE}/api/port/operations`);
@@ -284,7 +283,6 @@
                     const tbody = document.getElementById('logsTableBody');
                     tbody.innerHTML = '';
                     
-                    // Atualiza o contador de registos reais com o tamanho exato da base de dados
                     document.getElementById('kpiTotalOps').innerText = json.data.length;
 
                     if(!json.data || json.data.length === 0) {
@@ -325,7 +323,7 @@
                 const json = await res.json();
                 if (json.success) {
                     document.getElementById('vessel_name').value = '';
-                    loadOperations(); // Recarrega imediatamente os dados reais da BD
+                    loadOperations();
                 } else {
                     alert('Erro ao guardar na base de dados do VPS.');
                 }
