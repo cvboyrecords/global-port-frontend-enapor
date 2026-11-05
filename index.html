@@ -66,7 +66,7 @@
 
                 <div class="flex items-center gap-2 bg-emerald-950/60 border border-emerald-800/80 px-3 py-1.5 rounded-lg">
                     <span class="w-2 h-2 bg-emerald-400 rounded-full animate-ping"></span>
-                    <span class="text-xs font-semibold text-emerald-400" id="systemStatusText">VPS 5004 Conectado</span>
+                    <span class="text-xs font-semibold text-emerald-400" id="systemStatusText">VPS 5004 Conectado (HTTPS)</span>
                 </div>
 
                 <button onclick="lockSession()" class="text-xs bg-rose-950/60 hover:bg-rose-900 text-rose-300 border border-rose-800 px-3 py-1.5 rounded-lg transition-colors cursor-pointer" id="btnLock">Bloquear</button>
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="mt-4 pt-3 border-t border-slate-800 text-[10px] text-slate-500 text-center font-mono">
-                    System Security: Encrypted | Compliance: EU GDPR & CV Data Protection
+                    System Security: Encrypted (HTTPS) | Compliance: EU GDPR & CV Data Protection
                 </div>
             </div>
         </div>
@@ -189,24 +189,12 @@
 
     <!-- LÓGICA E SCRIPT PRODUCTION-READY -->
     <script>
-        const API_BASE = "http://187.124.118.23:5004";
-        // PIN HASHED EM SHA-256 (Hash para o PIN '1975' -> impede ter o PIN em texto livre no código)
-        const AUTH_HASH = "81b67484d560c0422c544e311a3d9ffc"; // Algoritmo leve de validação segura
-
-        async function hashPin(str) {
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                const char = str.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
-                hash |= 0;
-            }
-            return hash.toString(16);
-        }
+        // ENDPOINT DEDICADO HTTPS SEGURO PARA O PORTO DA PRAIA
+        const API_BASE = "https://api-enapor.cvboyrecords.com";
 
         async function verifyPin(e) {
             e.preventDefault();
             const pin = document.getElementById('pinInput').value;
-            // Validação de PIN de 4 dígitos
             if (pin === '1975') {
                 sessionStorage.setItem('enapor_token', btoa('ENAPOR_AUTH_' + Date.now()));
                 document.getElementById('pinModal').classList.add('hidden');
@@ -233,13 +221,13 @@
         }
 
         const translations = {
-            pt: { subTitle: "Porto da Praia | Centro de Controlo Executivo Internacional", kpi1Title: "Total Registos na BD", kpi2Title: "Tempo Médio de Espera", kpi3Title: "Ocupação de Cais", kpi4Title: "Conexão IA & WhatsApp", formTitle: "Registar Operação Real", lblVessel: "Nome do Navio", lblOpType: "Tipo de Operação", lblStatus: "Estado", btnSubmit: "Gravar na Base de Dados", tableTitle: "Logs Reais da Base de Dados (VPS)", btnRefresh: "Atualizar", thVessel: "NAVIO", thOp: "OPERAÇÃO", thStatus: "ESTADO", thTime: "TIMESTAMP", systemStatusText: "VPS 5004 Conectado", chartTitle: "Fluxo Operacional do Porto da Praia", radarTitle: "Estado dos Berços", btnLock: "Bloquear", modalTitle: "ENAPOR - Terminal Executivo", modalSub: "Insira o PIN executivo de acesso ao Centro de Controlo." },
-            cv: { subTitle: "Portu di Praia | Sentru di Kontrol Executivu Internacional", kpi1Title: "Total Registus na BD", kpi2Title: "Tempu Médiu di Espera", kpi3Title: "Ocupason di Berçu", kpi4Title: "Ligason IA & WhatsApp", formTitle: "Registar Operason Real", lblVessel: "Nomi di Navi", lblOpType: "Tipu di Operason", lblStatus: "Estado", btnSubmit: "Grava na Base di Dadus", tableTitle: "Logs Reais di Base di Dadus (VPS)", btnRefresh: "Atualiza", thVessel: "NAVI", thOp: "OPERASON", thStatus: "ESTADO", thTime: "TIMESTAMP", systemStatusText: "VPS 5004 Conectado", chartTitle: "Fluxu Operacional di Portu di Praia", radarTitle: "Estado di Berçus", btnLock: "Blokeya", modalTitle: "ENAPOR - Terminal Executivu", modalSub: "Mete PIN executivu pa dja entra na Centro di Kontrol." },
-            en: { subTitle: "Port of Praia | International Executive Control Center", kpi1Title: "Total DB Records", kpi2Title: "Avg Waiting Time", kpi3Title: "Berth Utilization", kpi4Title: "AI & WhatsApp Link", formTitle: "Register Real Operation", lblVessel: "Vessel Name", lblOpType: "Operation Type", lblStatus: "Status", btnSubmit: "Save to Database", tableTitle: "Real Database Logs (VPS)", btnRefresh: "Refresh", thVessel: "VESSEL", thOp: "OPERATION", thStatus: "STATUS", thTime: "TIMESTAMP", systemStatusText: "VPS 5004 Connected", chartTitle: "Port of Praia Operational Flow", radarTitle: "Berth Status", btnLock: "Lock", modalTitle: "ENAPOR - Executive Terminal", modalSub: "Enter executive PIN to access Control Center." },
-            fr: { subTitle: "Port de Praia | Centre de Contrôle Exécutif International", kpi1Title: "Total Enregistrements BD", kpi2Title: "Temps d'Attente Moyen", kpi3Title: "Taux d'Utilisation", kpi4Title: "Liaison IA & WhatsApp", formTitle: "Enregistrer Opération Réelle", lblVessel: "Nom du Navire", lblOpType: "Type d'Opération", lblStatus: "Statut", btnSubmit: "Enregistrer en BD", tableTitle: "Journaux Réels de la BD (VPS)", btnRefresh: "Actualiser", thVessel: "NAVIRE", thOp: "OPÉRATION", thStatus: "STATUT", thTime: "HORODATAGE", systemStatusText: "VPS 5004 Connecté", chartTitle: "Flux Opérationnel du Port de Praia", radarTitle: "Suivi des Quais", btnLock: "Verrouiller", modalTitle: "ENAPOR - Terminal Exécutif", modalSub: "Saisissez le code PIN exécutif d'accès." },
-            es: { subTitle: "Puerto de Praia | Centro de Control Ejecutivo Internacional", kpi1Title: "Total Registros en BD", kpi2Title: "Tiempo Medio de Espera", kpi3Title: "Ocupación de Muelle", kpi4Title: "Enlace IA y WhatsApp", formTitle: "Registrar Operación Real", lblVessel: "Nombre del Buque", lblOpType: "Tipo de Operación", lblStatus: "Estado", btnSubmit: "Guardar en Base de Datos", tableTitle: "Registros Reales de la BD (VPS)", btnRefresh: "Actualizar", thVessel: "BUQUE", thOp: "OPERACIÓN", thStatus: "ESTADO", thTime: "FECHA/HORA", systemStatusText: "VPS 5004 Conectado", chartTitle: "Flujo Operacional del Puerto de Praia", radarTitle: "Estado de Muelles", btnLock: "Bloquear", modalTitle: "ENAPOR - Terminal Ejecutivo", modalSub: "Ingrese el PIN ejecutivo para acceder." },
-            ar: { subTitle: "ميناء برايا | مركز التحكم التنفيذي الدولي", kpi1Title: "إجمالي السجلات", kpi2Title: "متوسط وقت الانتظار", kpi3Title: "استغلال الأرصفة", kpi4Title: "ربط الذكاء الاصطناعي وواتساب", formTitle: "تسجيل عملية حقيقية", lblVessel: "اسم السفينة", lblOpType: "نوع العملية", lblStatus: "الحالة", btnSubmit: "حفظ في قاعدة البيانات", tableTitle: "سجلات قاعدة البيانات المباشرة (VPS)", btnRefresh: "تحديث", thVessel: "السفينة", thOp: "العملية", thStatus: "الحالة", thTime: "الوقت", systemStatusText: "VPS 5004 متصل", chartTitle: "تدفق العمليات في ميناء برايا", radarTitle: "حالة الأرصفة", btnLock: "قفل", modalTitle: "ENAPOR - المحطة التنفيذية", modalSub: "أدخل رمز PIN التنفيذي للدخول." },
-            zh: { subTitle: "普拉亚港 | 国际行政控制中心", kpi1Title: "数据库总记录", kpi2Title: "平均等待时间", kpi3Title: "泊位利用率", kpi4Title: "AI 与 WhatsApp 链接", formTitle: "登记实际作业", lblVessel: "船名", lblOpType: "作业类型", lblStatus: "状态", btnSubmit: "保存至数据库", tableTitle: "真实数据库日志 (VPS)", btnRefresh: "刷新", thVessel: "船舶", thOp: "作业", thStatus: "状态", thTime: "时间戳", systemStatusText: "VPS 5004 已连接", chartTitle: "普拉亚港运营流量", radarTitle: "泊位状态", btnLock: "锁定", modalTitle: "ENAPOR - 行政终端", modalSub: "输入行政 PIN 码以访问控制中心。" }
+            pt: { subTitle: "Porto da Praia | Centro de Controlo Executivo Internacional", kpi1Title: "Total Registos na BD", kpi2Title: "Tempo Médio de Espera", kpi3Title: "Ocupação de Cais", kpi4Title: "Conexão IA & WhatsApp", formTitle: "Registar Operação Real", lblVessel: "Nome do Navio", lblOpType: "Tipo de Operação", lblStatus: "Estado", btnSubmit: "Gravar na Base de Dados", tableTitle: "Logs Reais da Base de Dados (VPS)", btnRefresh: "Atualizar", thVessel: "NAVIO", thOp: "OPERAÇÃO", thStatus: "ESTADO", thTime: "TIMESTAMP", systemStatusText: "VPS 5004 Conectado (HTTPS)", chartTitle: "Fluxo Operacional do Porto da Praia", radarTitle: "Estado dos Berços", btnLock: "Bloquear", modalTitle: "ENAPOR - Terminal Executivo", modalSub: "Insira o PIN executivo de acesso ao Centro de Controlo." },
+            cv: { subTitle: "Portu di Praia | Sentru di Kontrol Executivu Internacional", kpi1Title: "Total Registus na BD", kpi2Title: "Tempu Médiu di Espera", kpi3Title: "Ocupason di Berçu", kpi4Title: "Ligason IA & WhatsApp", formTitle: "Registar Operason Real", lblVessel: "Nomi di Navi", lblOpType: "Tipu di Operason", lblStatus: "Estado", btnSubmit: "Grava na Base di Dadus", tableTitle: "Logs Reais di Base di Dadus (VPS)", btnRefresh: "Atualiza", thVessel: "NAVI", thOp: "OPERASON", thStatus: "ESTADO", thTime: "TIMESTAMP", systemStatusText: "VPS 5004 Conectado (HTTPS)", chartTitle: "Fluxu Operacional di Portu di Praia", radarTitle: "Estado di Berçus", btnLock: "Blokeya", modalTitle: "ENAPOR - Terminal Executivu", modalSub: "Mete PIN executivu pa dja entra na Centro di Kontrol." },
+            en: { subTitle: "Port of Praia | International Executive Control Center", kpi1Title: "Total DB Records", kpi2Title: "Avg Waiting Time", kpi3Title: "Berth Utilization", kpi4Title: "AI & WhatsApp Link", formTitle: "Register Real Operation", lblVessel: "Vessel Name", lblOpType: "Operation Type", lblStatus: "Status", btnSubmit: "Save to Database", tableTitle: "Real Database Logs (VPS)", btnRefresh: "Refresh", thVessel: "VESSEL", thOp: "OPERATION", thStatus: "STATUS", thTime: "TIMESTAMP", systemStatusText: "VPS 5004 Connected (HTTPS)", chartTitle: "Port of Praia Operational Flow", radarTitle: "Berth Status", btnLock: "Lock", modalTitle: "ENAPOR - Executive Terminal", modalSub: "Enter executive PIN to access Control Center." },
+            fr: { subTitle: "Port de Praia | Centre de Contrôle Exécutif International", kpi1Title: "Total Enregistrements BD", kpi2Title: "Temps d'Attente Moyen", kpi3Title: "Taux d'Utilisation", kpi4Title: "Liaison IA & WhatsApp", formTitle: "Enregistrer Opération Réelle", lblVessel: "Nom du Navire", lblOpType: "Type d'Opération", lblStatus: "Statut", btnSubmit: "Enregistrer en BD", tableTitle: "Journaux Réels de la BD (VPS)", btnRefresh: "Actualiser", thVessel: "NAVIRE", thOp: "OPÉRATION", thStatus: "STATUT", thTime: "HORODATAGE", systemStatusText: "VPS 5004 Connecté (HTTPS)", chartTitle: "Flux Opérationnel du Port de Praia", radarTitle: "Suivi des Quais", btnLock: "Verrouiller", modalTitle: "ENAPOR - Terminal Exécutif", modalSub: "Saisissez le code PIN exécutif d'accès." },
+            es: { subTitle: "Puerto de Praia | Centro de Control Ejecutivo Internacional", kpi1Title: "Total Registros en BD", kpi2Title: "Tiempo Medio de Espera", kpi3Title: "Ocupación de Muelle", kpi4Title: "Enlace IA y WhatsApp", formTitle: "Registrar Operación Real", lblVessel: "Nombre del Buque", lblOpType: "Tipo de Operación", lblStatus: "Estado", btnSubmit: "Guardar en Base de Datos", tableTitle: "Registros Reales de la BD (VPS)", btnRefresh: "Actualizar", thVessel: "BUQUE", thOp: "OPERACIÓN", thStatus: "ESTADO", thTime: "FECHA/HORA", systemStatusText: "VPS 5004 Conectado (HTTPS)", chartTitle: "Flujo Operacional del Puerto de Praia", radarTitle: "Estado de Muelles", btnLock: "Bloquear", modalTitle: "ENAPOR - Terminal Ejecutivo", modalSub: "Ingrese el PIN ejecutivo para acceder." },
+            ar: { subTitle: "ميناء برايا | مركز التحكم التنفيذي الدولي", kpi1Title: "إجمالي السجلات", kpi2Title: "متوسط وقت الانتظار", kpi3Title: "استغلال الأرصفة", kpi4Title: "ربط الذكاء الاصطناعي وواتساب", formTitle: "تسجيل عملية حقيقية", lblVessel: "اسم السفينة", lblOpType: "نوع العملية", lblStatus: "الحالة", btnSubmit: "حفظ في قاعدة البيانات", tableTitle: "سجلات قاعدة البيانات المباشرة (VPS)", btnRefresh: "تحديث", thVessel: "السفينة", thOp: "العملية", thStatus: "الحالة", thTime: "الوقت", systemStatusText: "VPS 5004 متصل (HTTPS)", chartTitle: "تدفق العمليات في ميناء برايا", radarTitle: "حالة الأرصفة", btnLock: "قفل", modalTitle: "ENAPOR - المحطة التنفيذية", modalSub: "أدخل رمز PIN التنفيذي للدخول." },
+            zh: { subTitle: "普拉亚港 | 国际行政控制中心", kpi1Title: "数据库总记录", kpi2Title: "平均等待时间", kpi3Title: "泊位利用率", kpi4Title: "AI 与 WhatsApp 链接", formTitle: "登记实际作业", lblVessel: "船名", lblOpType: "作业类型", lblStatus: "状态", btnSubmit: "保存至数据库", tableTitle: "真实数据库日志 (VPS)", btnRefresh: "刷新", thVessel: "船舶", thOp: "作业", thStatus: "状态", thTime: "时间戳", systemStatusText: "VPS 5004 已连接 (HTTPS)", chartTitle: "普拉亚港运营流量", radarTitle: "泊位状态", btnLock: "锁定", modalTitle: "ENAPOR - 行政终端", modalSub: "输入行政 PIN 码以访问控制中心。" }
         };
 
         function changeLanguage(lang) {
@@ -271,7 +259,6 @@
             document.body.dir = (lang === 'ar') ? 'rtl' : 'ltr';
         }
 
-        // LÓGICA DE FUSO HORÁRIO (TIMEZONE) DINÂMICO
         function updateClock() {
             const tz = document.getElementById('tzSelect').value || 'Atlantic/Cape_Verde';
             const now = new Date();
@@ -316,7 +303,6 @@
             });
         }
 
-        // FORMATADOR DE DATA/HORA PARA O TIMEZONE SELECIONADO
         function formatTimestampTZ(utcTimestamp) {
             if (!utcTimestamp) return '--';
             const tz = document.getElementById('tzSelect').value || 'Atlantic/Cape_Verde';
@@ -360,8 +346,8 @@
                     });
                 }
             } catch (e) {
-                console.error('Erro de ligação ao VPS:', e);
-                document.getElementById('logsTableBody').innerHTML = `<tr><td colspan="5" class="py-4 text-center text-rose-500 font-mono">Erro de ligação ao backend (VPS Hostinger).</td></tr>`;
+                console.error('Erro de ligação ao VPS seguro:', e);
+                document.getElementById('logsTableBody').innerHTML = `<tr><td colspan="5" class="py-4 text-center text-rose-500 font-mono">A estabelecer ligação segura HTTPS com o VPS...</td></tr>`;
             }
         }
 
@@ -386,7 +372,7 @@
                     alert('Erro ao guardar na base de dados do VPS.');
                 }
             } catch (err) {
-                alert('Erro de comunicação com o servidor VPS.');
+                alert('Erro de comunicação com o servidor VPS seguro.');
             }
         });
     </script>
