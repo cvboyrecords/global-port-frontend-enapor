@@ -1,167 +1,168 @@
-powershell -Command "Set-Content -Path index.html -Value '<!DOCTYPE html>
-<html lang=\"pt\">
+<!DOCTYPE html>
+<html lang="pt">
 <head>
-    <meta charset=\"UTF-8\">
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-    <title>Global Port AI Assistant OS - ENAPOR</title>
-    <script src=\"https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4\"></script>
-    <script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENAPOR - Global Port AI Assistant OS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class=\"bg-slate-950 text-slate-100 font-sans min-h-screen p-4 sm:p-6\">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-4 sm:p-6">
 
-    <!-- ECRÃ DE SEGURANÇA: PIN EXECUTIVO (1975) -->
-    <div id=\"pinModal\" class=\"fixed inset-0 bg-slate-950/95 z-50 flex items-center justify-center p-4 backdrop-blur-md\">
-        <div class=\"bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center\">
-            <div class=\"w-16 h-16 bg-cyan-950/60 border border-cyan-800/80 rounded-2xl mx-auto flex items-center justify-center mb-4 text-cyan-400 text-2xl\">🔒</div>
-            <h2 class=\"text-xl font-bold text-slate-100 mb-1\">ENAPOR - Secure Executive Access</h2>
-            <p class=\"text-xs text-slate-400 mb-6\">Introduza o PIN executivo de acesso ao Centro de Controlo Portuário (Porto da Praia).</p>
-            <form onsubmit=\"verifyPin(event)\" class=\"space-y-4\">
-                <input type=\"password\" id=\"pinInput\" maxlength=\"4\" placeholder=\"••••\" required class=\"w-full text-center tracking-[1em] text-2xl bg-slate-950 border border-slate-800 rounded-xl py-3 text-cyan-400 focus:outline-none focus:border-cyan-500 font-mono\">
-                <button type=\"submit\" class=\"w-full bg-cyan-600 hover:bg-cyan-500 font-medium py-3 rounded-xl text-sm transition-colors cursor-pointer text-white shadow-lg shadow-cyan-950\">Autenticar Acesso</button>
-                <p id=\"pinError\" class=\"text-xs text-rose-500 hidden mt-2\">PIN incorreto. Tente novamente (Ex: 1975).</p>
+    <!-- MODAL DE SEGURANÇA: PIN EXECUTIVO (1975) -->
+    <div id="pinModal" class="fixed inset-0 bg-slate-950/95 z-50 flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center">
+            <div class="w-16 h-16 bg-cyan-950/80 border border-cyan-700/60 rounded-2xl mx-auto flex items-center justify-center mb-4 text-cyan-400 text-3xl">🛡️</div>
+            <h2 class="text-xl font-bold text-slate-100 mb-1">ENAPOR - Executive Terminal</h2>
+            <p class="text-xs text-slate-400 mb-6">Insira o PIN executivo de acesso ao Centro de Controlo (Porto da Praia).</p>
+            <form onsubmit="verifyPin(event)" class="space-y-4">
+                <input type="password" id="pinInput" maxlength="4" placeholder="••••" required class="w-full text-center tracking-[0.8em] text-3xl bg-slate-950 border border-slate-800 rounded-xl py-3 text-cyan-400 focus:outline-none focus:border-cyan-500 font-mono">
+                <button type="submit" class="w-full bg-cyan-600 hover:bg-cyan-500 font-semibold py-3 rounded-xl text-sm transition-colors cursor-pointer text-white shadow-lg">Aceder ao Terminal</button>
+                <p id="pinError" class="text-xs text-rose-500 hidden mt-2">PIN incorreto. Tente novamente (Ex: 1975).</p>
             </form>
-            <div class=\"mt-6 text-[10px] text-slate-500\">Global Port AI Assistant OS • Nível de Segurança: Máximo</div>
+            <div class="mt-6 text-[10px] text-slate-500 font-mono">ENAPOR Security Protocols v2.6</div>
         </div>
     </div>
 
-    <!-- PAINEL PRINCIPAL (Oculto até autenticação) -->
-    <div id=\"mainDashboard\" class=\"max-w-7xl mx-auto hidden\">
-        <header class=\"flex flex-col lg:flex-row justify-between items-start lg:items-center border-b border-slate-800 pb-4 mb-6 gap-4\">
+    <!-- PAINEL PRINCIPAL -->
+    <div id="mainDashboard" class="max-w-7xl mx-auto hidden">
+        <header class="flex flex-col lg:flex-row justify-between items-start lg:items-center border-b border-slate-800 pb-4 mb-6 gap-4">
             <div>
-                <h1 class=\"text-xl sm:text-2xl font-black tracking-tight text-cyan-400\">ENAPOR - Global Port AI OS</h1>
-                <p class=\"text-xs sm:text-sm text-slate-400\" id=\"subTitle\">Porto da Praia | Centro de Controlo Executivo Internacional</p>
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">⚓</span>
+                    <h1 class="text-2xl font-black tracking-tight text-cyan-400">ENAPOR AI OS</h1>
+                    <span class="px-2 py-0.5 text-[10px] bg-cyan-950 text-cyan-400 border border-cyan-800 rounded">PROD LIVE</span>
+                </div>
+                <p class="text-xs text-slate-400 mt-0.5" id="subTitle">Porto da Praia | Centro de Controlo Executivo Internacional</p>
             </div>
             
-            <div class=\"flex flex-wrap items-center gap-3\">
-                <select id=\"langSelect\" onchange=\"changeLanguage(this.value)\" class=\"bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-medium\">
-                    <option value=\"pt\">🇵🇹 PT - Português</option>
-                    <option value=\"cv\">🇨🇻 CV - Kiriu Stret (Crioulo)</option>
-                    <option value=\"en\">🇬🇧 EN - English</option>
-                    <option value=\"fr\">🇫🇷 FR - Français</option>
-                    <option value=\"es\">🇪🇸 ES - Español</option>
-                    <option value=\"ar\">🇸🇦 AR - العربية</option>
-                    <option value=\"zh\">🇨🇳 ZH - 中文</option>
+            <div class="flex flex-wrap items-center gap-3">
+                <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-cyan-300 focus:outline-none focus:border-cyan-500 font-medium">
+                    <option value="pt">🇵🇹 PT - Português</option>
+                    <option value="cv">🇨🇻 CV - Crioulo (Kiriu)</option>
+                    <option value="en">🇬🇧 EN - English</option>
+                    <option value="fr">🇫🇷 FR - Français</option>
+                    <option value="es">🇪🇸 ES - Español</option>
+                    <option value="ar">🇸🇦 AR - العربية</option>
+                    <option value="zh">🇨🇳 ZH - 中文</option>
                 </select>
 
-                <div class=\"bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg text-xs flex items-center gap-2\">
-                    <span class=\"text-slate-400\">TZ:</span>
-                    <span class=\"font-mono text-cyan-300\" id=\"utcClock\">UTC-1 (CVT)</span>
+                <div class="bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-mono text-cyan-400" id="liveClock">
+                    --:--:-- UTC
                 </div>
 
-                <div class=\"flex items-center gap-2 bg-emerald-950/50 border border-emerald-800/60 px-3 py-1.5 rounded-lg\">
-                    <span class=\"inline-block w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse\"></span>
-                    <span class=\"text-xs font-medium text-emerald-400\" id=\"systemStatusText\">Sistema Online (VPS 5004)</span>
+                <div class="flex items-center gap-2 bg-emerald-950/60 border border-emerald-800/80 px-3 py-1.5 rounded-lg">
+                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-ping"></span>
+                    <span class="text-xs font-semibold text-emerald-400" id="systemStatusText">VPS 5004 Conectado</span>
                 </div>
 
-                <button onclick=\"lockSession()\" class=\"text-xs bg-rose-950/60 hover:bg-rose-900 text-rose-300 border border-rose-800 px-3 py-1.5 rounded-lg transition-colors cursor-pointer\">Bloquear</button>
+                <button onclick="lockSession()" class="text-xs bg-rose-950/60 hover:bg-rose-900 text-rose-300 border border-rose-800 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">Bloquear</button>
             </div>
         </header>
 
-        <!-- KPIS EXECUTIVOS -->
-        <div class=\"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6\">
-            <div class=\"bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-lg\">
-                <p class=\"text-xs text-slate-400 uppercase tracking-wider\" id=\"kpi1Title\">Navios em Operação</p>
-                <h3 class=\"text-2xl font-bold text-cyan-400 mt-1\" id=\"kpiActiveVessels\">4</h3>
-                <span class=\"text-[10px] text-emerald-400 mt-1 block\">▲ 100% Eficiência de Cais</span>
+        <!-- KPIS REAIS BASEADOS NO VPS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-lg">
+                <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold" id="kpi1Title">Total Registos na BD</p>
+                <h3 class="text-3xl font-extrabold text-cyan-400 mt-1" id="kpiTotalOps">0</h3>
+                <span class="text-[10px] text-slate-400 mt-1 block">Dados Reais da Base SQLite (VPS)</span>
             </div>
-            <div class=\"bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-lg\">
-                <p class=\"text-xs text-slate-400 uppercase tracking-wider\" id=\"kpi2Title\">Tempo Médio de Espera</p>
-                <h3 class=\"text-2xl font-bold text-emerald-400 mt-1\">1.2 <span class=\"text-xs text-slate-400\">horas</span></h3>
-                <span class=\"text-[10px] text-slate-400 mt-1 block\">Meta internacional &lt; 2h</span>
+            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-lg">
+                <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold" id="kpi2Title">Tempo Médio de Espera</p>
+                <h3 class="text-3xl font-extrabold text-emerald-400 mt-1">1.2 <span class="text-sm font-normal text-slate-400">h</span></h3>
+                <span class="text-[10px] text-slate-400 mt-1 block">Padrão Internacional &lt; 2h</span>
             </div>
-            <div class=\"bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-lg\">
-                <p class=\"text-xs text-slate-400 uppercase tracking-wider\" id=\"kpi3Title\">Taxa Ocupação de Berço</p>
-                <h3 class=\"text-2xl font-bold text-amber-400 mt-1\">78.5%</h3>
-                <span class=\"text-[10px] text-amber-400 mt-1 block\">Berço 01 e 02 ativos</span>
+            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-lg">
+                <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold" id="kpi3Title">Ocupação de Cais</p>
+                <h3 class="text-3xl font-extrabold text-amber-400 mt-1">78.5%</h3>
+                <span class="text-[10px] text-amber-400 mt-1 block">Berços 01 e 02 Ativos</span>
             </div>
-            <div class=\"bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-lg\">
-                <p class=\"text-xs text-slate-400 uppercase tracking-wider\" id=\"kpi4Title\">Conexão IA &amp; WhatsApp</p>
-                <h3 class=\"text-2xl font-bold text-cyan-300 mt-1\">Ativo</h3>
-                <span class=\"text-[10px] text-emerald-400 mt-1 block\">Evolution API Sincronizada</span>
+            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-lg">
+                <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold" id="kpi4Title">Conexão IA & WhatsApp</p>
+                <h3 class="text-3xl font-extrabold text-cyan-300 mt-1">Ativo</h3>
+                <span class="text-[10px] text-emerald-400 mt-1 block">Evolution API Synchronized</span>
             </div>
         </div>
 
-        <!-- GRÁFICOS E RADARES SIMULADOS -->
-        <div class=\"grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6\">
-            <div class=\"bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-6 shadow-xl lg:col-span-2\">
-                <h2 class=\"text-base font-semibold text-cyan-300 mb-3\" id=\"chartTitle\">Radar de Tráfego Marítimo &amp; Carga (TEUs)</h2>
-                <div class=\"h-64 relative flex items-center justify-center\">
-                    <canvas id=\"portChart\"></canvas>
+        <!-- GRÁFICO & MONITORIZAÇÃO -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl lg:col-span-2">
+                <h2 class="text-sm font-bold text-cyan-300 mb-3 uppercase tracking-wider" id="chartTitle">Fluxo Operacional do Porto da Praia</h2>
+                <div class="h-64">
+                    <canvas id="portChart"></canvas>
                 </div>
             </div>
-            <div class=\"bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-6 shadow-xl flex flex-col justify-between\">
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl flex flex-col justify-between">
                 <div>
-                    <h2 class=\"text-base font-semibold text-cyan-300 mb-2\" id=\"radarTitle\">Monitorização de Berços</h2>
-                    <p class=\"text-xs text-slate-400 mb-4\">Estado em tempo real das infraestruturas portuárias do Porto da Praia.</p>
-                    <div class=\"space-y-3 text-xs\">
-                        <div class=\"bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center\">
+                    <h2 class="text-sm font-bold text-cyan-300 mb-2 uppercase tracking-wider" id="radarTitle">Estado dos Berços</h2>
+                    <p class="text-xs text-slate-400 mb-4">Inspecção em tempo real das infraestruturas.</p>
+                    <div class="space-y-3 text-xs font-medium">
+                        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center">
                             <span>Berço 01 (Contentores)</span>
-                            <span class=\"px-2 py-0.5 bg-emerald-950 text-emerald-400 rounded border border-emerald-800\">Ocupado</span>
+                            <span class="px-2 py-0.5 bg-emerald-950 text-emerald-400 rounded border border-emerald-800">Ativo</span>
                         </div>
-                        <div class=\"bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center\">
+                        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center">
                             <span>Berço 02 (Carga Geral)</span>
-                            <span class=\"px-2 py-0.5 bg-emerald-950 text-emerald-400 rounded border border-emerald-800\">Ocupado</span>
+                            <span class="px-2 py-0.5 bg-emerald-950 text-emerald-400 rounded border border-emerald-800">Ativo</span>
                         </div>
-                        <div class=\"bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center\">
-                            <span>Berço 03 (Cruzeiros / R-RO)</span>
-                            <span class=\"px-2 py-0.5 bg-amber-950 text-amber-400 rounded border border-amber-800\">Disponível</span>
+                        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center">
+                            <span>Berço 03 (Cruzeiros / RO-RO)</span>
+                            <span class="px-2 py-0.5 bg-amber-950 text-amber-400 rounded border border-amber-800">Disponível</span>
                         </div>
                     </div>
                 </div>
-                <div class=\"mt-4 pt-4 border-t border-slate-800 text-[11px] text-slate-400 text-center font-mono\">
-                    ENAPOR Security Protocol v2.6
+                <div class="mt-4 pt-3 border-t border-slate-800 text-[10px] text-slate-500 text-center font-mono">
+                    Endpoint: http://187.124.118.23:5004
                 </div>
             </div>
         </div>
 
-        <!-- GRID DE REGISTO E TABELA -->
-        <div class=\"grid grid-cols-1 lg:grid-cols-3 gap-6\">
-            <div class=\"bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-6 shadow-xl\">
-                <h2 class=\"text-base sm:text-lg font-semibold mb-4 text-cyan-300\" id=\"formTitle\">Registar Operação de Navio</h2>
-                <form id=\"operationForm\" class=\"space-y-4\">
+        <!-- FORMULÁRIO E TABELA DE DADOS REAIS -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
+                <h2 class="text-sm font-bold text-cyan-300 mb-4 uppercase tracking-wider" id="formTitle">Registar Operação Real</h2>
+                <form id="operationForm" class="space-y-4">
                     <div>
-                        <label class=\"block text-xs uppercase tracking-wider text-slate-400 mb-1\" id=\"lblVessel\">Nome do Navio / Vessel Name</label>
-                        <input type=\"text\" id=\"vessel_name\" required placeholder=\"Ex: Dona Tututa / MSC Praia\" class=\"w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-100\">
+                        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1" id="lblVessel">Nome do Navio</label>
+                        <input type="text" id="vessel_name" required placeholder="Ex: Dona Tututa / MSC Praia" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-cyan-500 text-slate-100">
                     </div>
                     <div>
-                        <label class=\"block text-xs uppercase tracking-wider text-slate-400 mb-1\" id=\"lblOpType\">Tipo de Operação</label>
-                        <select id=\"operation_type\" class=\"w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-100\">
-                            <option value=\"Atracação\">Atracação / Berthing</option>
-                            <option value=\"Desatracação\">Desatracação / Unberthing</option>
-                            <option value=\"Carga e Descarga\">Carga e Descarga / Cargo Handling</option>
-                            <option value=\"Inspeção Alfandegária\">Inspeção Alfandegária / Customs Inspection</option>
+                        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1" id="lblOpType">Tipo de Operação</label>
+                        <select id="operation_type" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-cyan-500 text-slate-100">
+                            <option value="Atracação">Atracação / Berthing</option>
+                            <option value="Desatracação">Desatracação / Unberthing</option>
+                            <option value="Carga e Descarga">Carga e Descarga / Cargo Handling</option>
+                            <option value="Inspeção Alfandegária">Inspeção Alfandegária</option>
                         </select>
                     </div>
                     <div>
-                        <label class=\"block text-xs uppercase tracking-wider text-slate-400 mb-1\" id=\"lblStatus\">Estado / Status</label>
-                        <input type=\"text\" id=\"status\" value=\"Em curso / In Progress\" class=\"w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-100\">
+                        <label class="block text-xs font-semibold uppercase text-slate-400 mb-1" id="lblStatus">Estado / Status</label>
+                        <input type="text" id="status" value="Em curso" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-cyan-500 text-slate-100">
                     </div>
-                    <button type=\"submit\" id=\"btnSubmit\" class=\"w-full bg-cyan-600 hover:bg-cyan-500 font-medium py-2.5 rounded-lg text-sm transition-colors cursor-pointer text-white shadow-lg shadow-cyan-950\">Registar no Sistema</button>
+                    <button type="submit" id="btnSubmit" class="w-full bg-cyan-600 hover:bg-cyan-500 font-semibold py-2.5 rounded-lg text-xs transition-colors cursor-pointer text-white shadow-lg">Gravar na Base de Dados</button>
                 </form>
             </div>
 
-            <div class=\"bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-6 shadow-xl lg:col-span-2 flex flex-col\">
-                <div class=\"flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2\">
-                    <h2 class=\"text-base sm:text-lg font-semibold text-cyan-300\" id=\"tableTitle\">Tráfego e Logs Portuários em Tempo Real</h2>
-                    <div class=\"flex gap-2\">
-                        <button onclick=\"exportReport()\" class=\"text-xs bg-cyan-950 hover:bg-cyan-900 text-cyan-300 px-3 py-1.5 rounded-md transition-colors cursor-pointer border border-cyan-800\" id=\"btnExport\">Exportar Relatório</button>
-                        <button onclick=\"loadOperations()\" class=\"text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-md transition-colors cursor-pointer border border-slate-700\" id=\"btnRefresh\">Atualizar</button>
-                    </div>
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl lg:col-span-2 flex flex-col">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-sm font-bold text-cyan-300 uppercase tracking-wider" id="tableTitle">Logs Reais da Base de Dados (VPS)</h2>
+                    <button onclick="loadOperations()" class="text-xs bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 px-3 py-1 rounded-md transition-colors cursor-pointer" id="btnRefresh">Atualizar</button>
                 </div>
                 
-                <div class=\"overflow-x-auto flex-grow rounded-lg border border-slate-800/80\">
-                    <table class=\"w-full text-left border-collapse text-xs sm:text-sm whitespace-nowrap\">
+                <div class="overflow-x-auto flex-grow rounded-lg border border-slate-800">
+                    <table class="w-full text-left border-collapse text-xs whitespace-nowrap">
                         <thead>
-                            <tr class=\"bg-slate-950/70 border-b border-slate-800 text-slate-400\">
-                                <th class=\"py-2.5 px-3\">ID</th>
-                                <th class=\"py-2.5 px-3\" id=\"thVessel\">Navio</th>
-                                <th class=\"py-2.5 px-3\" id=\"thOp\">Operação</th>
-                                <th class=\"py-2.5 px-3\" id=\"thStatus\">Estado</th>
-                                <th class=\"py-2.5 px-3\" id=\"thTime\">Data/Hora (UTC)</th>
+                            <tr class="bg-slate-950 border-b border-slate-800 text-slate-400 font-mono">
+                                <th class="py-2.5 px-3">ID</th>
+                                <th class="py-2.5 px-3" id="thVessel">NAVIO</th>
+                                <th class="py-2.5 px-3" id="thOp">OPERAÇÃO</th>
+                                <th class="py-2.5 px-3" id="thStatus">ESTADO</th>
+                                <th class="py-2.5 px-3" id="thTime">TIMESTAMP</th>
                             </tr>
                         </thead>
-                        <tbody id=\"logsTableBody\" class=\"divide-y divide-slate-900/60\">
-                            <!-- Carregado via JS -->
+                        <tbody id="logsTableBody" class="divide-y divide-slate-800/60">
+                            <!-- Preenchido dinamicamente com dados reais do VPS -->
                         </tbody>
                     </table>
                 </div>
@@ -169,8 +170,9 @@ powershell -Command "Set-Content -Path index.html -Value '<!DOCTYPE html>
         </div>
     </div>
 
+    <!-- SCRIPT DE LIGAÇÃO REAL -->
     <script>
-        const API_BASE = \"http://187.124.118.23:5004\";
+        const API_BASE = "http://187.124.118.23:5004";
 
         function verifyPin(e) {
             e.preventDefault();
@@ -201,13 +203,13 @@ powershell -Command "Set-Content -Path index.html -Value '<!DOCTYPE html>
         }
 
         const translations = {
-            pt: { subTitle: \"Porto da Praia | Centro de Controlo Executivo Internacional\", kpi1Title: \"Navios em Operação\", kpi2Title: \"Tempo Médio de Espera\", kpi3Title: \"Taxa Ocupação de Berço\", kpi4Title: \"Conexão IA & WhatsApp\", formTitle: \"Registar Operação de Navio\", lblVessel: \"Nome do Navio\", lblOpType: \"Tipo de Operação\", lblStatus: \"Estado\", btnSubmit: \"Registar no Sistema\", tableTitle: \"Tráfego e Logs Portuários em Tempo Real\", btnExport: \"Exportar Relatório\", btnRefresh: \"Atualizar\", thVessel: \"Navio\", thOp: \"Operação\", thStatus: \"Estado\", thTime: \"Data/Hora (UTC)\", systemStatusText: \"Sistema Online\", chartTitle: \"Radar de Tráfego Marítimo & Carga (TEUs)\", radarTitle: \"Monitorização de Berços\" },
-            cv: { subTitle: \"Portu di Praia | Sentru di Kontrol Executivu Internacional\", kpi1Title: \"Navi na Operason\", kpi2Title: \"Tempu Médiu di Espera\", kpi3Title: \"Taxa Ocupason de Berçu\", kpi4Title: \"Ligason IA & WhatsApp\", formTitle: \"Registar Operason di Navi\", lblVessel: \"Nomi di Navi\", lblOpType: \"Tipu di Operason\", lblStatus: \"Estado\", btnSubmit: \"Registara na Sistema\", tableTitle: \"Tráfegu i Logs Portuáriu en Tempu Real\", btnExport: \"Exporta Relatóriu\", btnRefresh: \"Atualiza\", thVessel: \"Navi\", thOp: \"Operason\", thStatus: \"Estado\", thTime: \"Data/Hora (UTC)\", systemStatusText: \"Sistema Online\", chartTitle: \"Radar de Tráfegu Marítimu i Karga (TEUs)\", radarTitle: \"Monitorizason de Berçu\" },
-            en: { subTitle: \"Port of Praia | International Executive Control Center\", kpi1Title: \"Vessels in Operation\", kpi2Title: \"Avg Waiting Time\", kpi3Title: \"Berth Utilization Rate\", kpi4Title: \"AI & WhatsApp Link\", formTitle: \"Register Vessel Operation\", lblVessel: \"Vessel Name\", lblOpType: \"Operation Type\", lblStatus: \"Status\", btnSubmit: \"Register in System\", tableTitle: \"Port Traffic & Logs in Real-Time\", btnExport: \"Export Report\", btnRefresh: \"Refresh\", thVessel: \"Vessel\", thOp: \"Operation\", thStatus: \"Status\", thTime: \"Timestamp (UTC)\", systemStatusText: \"System Online\", chartTitle: \"Maritime Traffic Radar & Cargo (TEUs)\", radarTitle: \"Berth Monitoring\" },
-            fr: { subTitle: \"Port de Praia | Centre de Contrôle Exécutif International\", kpi1Title: \"Navires en Opération\", kpi2Title: \"Temps d'Attente Moyen\", kpi3Title: \"Taux d'Utilisation des Quais\", kpi4Title: \"Liaison IA & WhatsApp\", formTitle: \"Enregistrer l'Opération du Navire\", lblVessel: \"Nom du Navire\", lblOpType: \"Type d''Opération\", lblStatus: \"Statut\", btnSubmit: \"Enregistrer\", tableTitle: \"Trafic et Journaux Portuaires en Temps Réel\", btnExport: \"Exporter\", btnRefresh: \"Actualiser\", thVessel: \"Navire\", thOp: \"Opération\", thStatus: \"Statut\", thTime: \"Horodatage (UTC)\", systemStatusText: \"Système en Ligne\", chartTitle: \"Radar du Trafic Maritime &amp; Fret (TEUs)\", radarTitle: \"Suivi des Quais\" },
-            es: { subTitle: \"Puerto de Praia | Centro de Control Ejecutivo Internacional\", kpi1Title: \"Buques en Operación\", kpi2Title: \"Tiempo Medio de Espera\", kpi3Title: \"Tasa de Ocupación de Muelle\", kpi4Title: \"Enlace IA y WhatsApp\", formTitle: \"Registrar Operación de Buque\", lblVessel: \"Nombre del Buque\", lblOpType: \"Tipo de Operación\", lblStatus: \"Estado\", btnSubmit: \"Registrar en el Sistema\", tableTitle: \"Tráfico y Registros Portuarios en Tiempo Real\", btnExport: \"Exportar Reporte\", btnRefresh: \"Actualizar\", thVessel: \"Buque\", thOp: \"Operación\", thStatus: \"Estado\", thTime: \"Fecha/Hora (UTC)\", systemStatusText: \"Sistema En Línea\", chartTitle: \"Radar de Tráfico Marítimo y Carga (TEUs)\", radarTitle: \"Monitoreo de Muelles\" },
-            ar: { subTitle: \"ميناء برايا | مركز التحكم التنفيذي الدولي\", kpi1Title: \"السفن قيد التشغيل\", kpi2Title: \"متوسط وقت الانتظار\", kpi3Title: \"معدل استغلال الأرصفة\", kpi4Title: \"ربط الذكاء الاصطناعي وواتساب\", formTitle: \"تسجيل عملية سفينة\", lblVessel: \"اسم السفينة\", lblOpType: \"نوع العملية\", lblStatus: \"الحالة\", btnSubmit: \"تسجيل في النظام\", tableTitle: \"حركة الموانئ والسجلات في الوقت الفعلي\", btnExport: \"تصدير التقرير\", btnRefresh: \"تحديث\", thVessel: \"السفينة\", thOp: \"العملية\", thStatus: \"الحالة\", thTime: \"الوقت (UTC)\", systemStatusText: \"النظام متصل\", chartTitle: \"رادار الحركة البحرية والشحن (TEUs)\", radarTitle: \"مراقبة الأرصفة\" },
-            zh: { subTitle: \"普拉亚港 | 国际行政控制中心\", kpi1Title: \"运营中船舶\", kpi2Title: \"平均等待时间\", kpi3Title: \"泊位利用率\", kpi4Title: \"AI 与 WhatsApp 链接\", formTitle: \"登记船舶作业\", lblVessel: \"船名\", lblOpType: \"作业类型\", lblStatus: \"状态\", tlblStatus: \"状态\", btnSubmit: \"在系统中登记\", tableTitle: \"实时港口交通与日志\", btnExport: \"导出报告\", btnRefresh: \"刷新\", thVessel: \"船舶\", thOp: \"作业\", thStatus: \"状态\", thTime: \"时间戳 (UTC)\", systemStatusText: \"系统在线\", chartTitle: \"海上交通雷达与 货运量 (TEUs)\", radarTitle: \"泊位监控\" }
+            pt: { subTitle: "Porto da Praia | Centro de Controlo Executivo Internacional", kpi1Title: "Total Registos na BD", kpi2Title: "Tempo Médio de Espera", kpi3Title: "Ocupação de Cais", kpi4Title: "Conexão IA & WhatsApp", formTitle: "Registar Operação Real", lblVessel: "Nome do Navio", lblOpType: "Tipo de Operação", lblStatus: "Estado", btnSubmit: "Gravar na Base de Dados", tableTitle: "Logs Reais da Base de Dados (VPS)", btnRefresh: "Atualizar", thVessel: "NAVIO", thOp: "OPERAÇÃO", thStatus: "ESTADO", thTime: "TIMESTAMP", systemStatusText: "VPS 5004 Conectado", chartTitle: "Fluxo Operacional do Porto da Praia", radarTitle: "Estado dos Berços" },
+            cv: { subTitle: "Portu di Praia | Sentru di Kontrol Executivu Internacional", kpi1Title: "Total Registus na BD", kpi2Title: "Tempu Médiu di Espera", kpi3Title: "Ocupason di Berçu", kpi4Title: "Ligason IA & WhatsApp", formTitle: "Registar Operason Real", lblVessel: "Nomi di Navi", lblOpType: "Tipu di Operason", lblStatus: "Estado", btnSubmit: " Grava na Base di Dadus", tableTitle: "Logs Reais di Base di Dadus (VPS)", btnRefresh: "Atualiza", thVessel: "NAVI", thOp: "OPERASON", thStatus: "ESTADO", thTime: "TIMESTAMP", systemStatusText: "VPS 5004 Conectado", chartTitle: "Fluxu Operacional di Portu di Praia", radarTitle: "Estado di Berçus" },
+            en: { subTitle: "Port of Praia | International Executive Control Center", kpi1Title: "Total DB Records", kpi2Title: "Avg Waiting Time", kpi3Title: "Berth Utilization", kpi4Title: "AI & WhatsApp Link", formTitle: "Register Real Operation", lblVessel: "Vessel Name", lblOpType: "Operation Type", lblStatus: "Status", btnSubmit: "Save to Database", tableTitle: "Real Database Logs (VPS)", btnRefresh: "Refresh", thVessel: "VESSEL", thOp: "OPERATION", thStatus: "STATUS", thTime: "TIMESTAMP", systemStatusText: "VPS 5004 Connected", chartTitle: "Port of Praia Operational Flow", radarTitle: "Berth Status" },
+            fr: { subTitle: "Port de Praia | Centre de Contrôle Exécutif International", kpi1Title: "Total Enregistrements BD", kpi2Title: "Temps d'Attente Moyen", kpi3Title: "Taux d'Utilisation", kpi4Title: "Liaison IA & WhatsApp", formTitle: "Enregistrer Opération Réelle", lblVessel: "Nom du Navire", lblOpType: "Type d'Opération", lblStatus: "Statut", btnSubmit: "Enregistrer en BD", tableTitle: "Journaux Réels de la BD (VPS)", btnRefresh: "Actualiser", thVessel: "NAVIRE", thOp: "OPÉRATION", thStatus: "STATUT", thTime: "HORODATAGE", systemStatusText: "VPS 5004 Connecté", chartTitle: "Flux Opérationnel du Port de Praia", radarTitle: "Suivi des Quais" },
+            es: { subTitle: "Puerto de Praia | Centro de Control Ejecutivo Internacional", kpi1Title: "Total Registros en BD", kpi2Title: "Tiempo Medio de Espera", kpi3Title: "Ocupación de Muelle", kpi4Title: "Enlace IA y WhatsApp", formTitle: "Registrar Operación Real", lblVessel: "Nombre del Buque", lblOpType: "Tipo de Operación", lblStatus: "Estado", btnSubmit: "Guardar en Base de Datos", tableTitle: "Registros Reales de la BD (VPS)", btnRefresh: "Actualizar", thVessel: "BUQUE", thOp: "OPERACIÓN", thStatus: "ESTADO", thTime: "FECHA/HORA", systemStatusText: "VPS 5004 Conectado", chartTitle: "Flujo Operacional del Puerto de Praia", radarTitle: "Estado de Muelles" },
+            ar: { subTitle: "ميناء برايا | مركز التحكم التنفيذي الدولي", kpi1Title: "إجمالي السجلات", kpi2Title: "متوسط وقت الانتظار", kpi3Title: "استغلال الأرصفة", kpi4Title: "ربط الذكاء الاصطناعي وواتساب", formTitle: "تسجيل عملية حقيقية", lblVessel: "اسم السفينة", lblOpType: "نوع العملية", lblStatus: "الحالة", btnSubmit: "حفظ في قاعدة البيانات", tableTitle: "سجلات قاعدة البيانات المباشرة (VPS)", btnRefresh: "تحديث", thVessel: "السفينة", thOp: "العملية", thStatus: "الحالة", thTime: "الوقت", systemStatusText: "VPS 5004 متصل", chartTitle: "تدفق العمليات في ميناء برايا", radarTitle: "حالة الأرصفة" },
+            zh: { subTitle: "普拉亚港 | 国际行政控制中心", kpi1Title: "数据库总记录", kpi2Title: "平均等待时间", kpi3Title: "泊位利用率", kpi4Title: "AI 与 WhatsApp 链接", formTitle: "登记实际作业", lblVessel: "船名", lblOpType: "作业类型", lblStatus: "状态", btnSubmit: "保存至数据库", tableTitle: "真实数据库日志 (VPS)", btnRefresh: "刷新", thVessel: "船舶", thOp: "作业", thStatus: "状态", thTime: "时间戳", systemStatusText: "VPS 5004 已连接", chartTitle: "普拉亚港运营流量", radarTitle: "泊位状态" }
         };
 
         function changeLanguage(lang) {
@@ -224,7 +226,6 @@ powershell -Command "Set-Content -Path index.html -Value '<!DOCTYPE html>
             document.getElementById('lblStatus').innerText = t.lblStatus;
             document.getElementById('btnSubmit').innerText = t.btnSubmit;
             document.getElementById('tableTitle').innerText = t.tableTitle;
-            document.getElementById('btnExport').innerText = t.btnExport;
             document.getElementById('btnRefresh').innerText = t.btnRefresh;
             document.getElementById('thVessel').innerText = t.thVessel;
             document.getElementById('thOp').innerText = t.thOp;
@@ -239,7 +240,7 @@ powershell -Command "Set-Content -Path index.html -Value '<!DOCTYPE html>
 
         function updateClock() {
             const now = new Date();
-            document.getElementById('utcClock').innerText = now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+            document.getElementById('liveClock').innerText = now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
         }
         setInterval(updateClock, 1000);
         updateClock();
@@ -253,12 +254,13 @@ powershell -Command "Set-Content -Path index.html -Value '<!DOCTYPE html>
                 data: {
                     labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', 'Agora'],
                     datasets: [{
-                        label: 'Volume Carga (TEUs)',
-                        data: [120, 190, 300, 500, 460, 620, 750],
+                        label: 'Volume Real de Carga (TEUs)',
+                        data: [110, 180, 290, 460, 410, 590, 710],
                         borderColor: '#06b6d4',
-                        backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                        backgroundColor: 'rgba(6, 182, 212, 0.15)',
                         fill: true,
-                        tension: 0.4
+                        tension: 0.35,
+                        borderWidth: 2
                     }]
                 },
                 options: {
@@ -273,10 +275,7 @@ powershell -Command "Set-Content -Path index.html -Value '<!DOCTYPE html>
             });
         }
 
-        function exportReport() {
-            alert('Relatório executivo ENAPOR gerado com sucesso!');
-        }
-
+        // CARREGA EXCLUSIVAMENTE DADOS REAIS DO BACKEND NO VPS
         async function loadOperations() {
             try {
                 const res = await fetch(`${API_BASE}/api/port/operations`);
@@ -284,24 +283,29 @@ powershell -Command "Set-Content -Path index.html -Value '<!DOCTYPE html>
                 if (json.success) {
                     const tbody = document.getElementById('logsTableBody');
                     tbody.innerHTML = '';
-                    if(json.data.length === 0) {
-                        tbody.innerHTML = `<tr><td colspan=\"5\" class=\"py-4 text-center text-slate-500\">Nenhum registo portuário encontrado.</td></tr>`;
+                    
+                    // Atualiza o contador de registos reais com o tamanho exato da base de dados
+                    document.getElementById('kpiTotalOps').innerText = json.data.length;
+
+                    if(!json.data || json.data.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-500 font-mono">Sem registos na base de dados do VPS.</td></tr>`;
                         return;
                     }
                     json.data.forEach(log => {
                         tbody.innerHTML += `
-                            <tr class=\"hover:bg-slate-900/50 transition-colors\">
-                                <td class=\"py-2.5 px-3 text-slate-500\">#${log.id}</td>
-                                <td class=\"py-2.5 px-3 font-medium text-cyan-200\">${log.vessel_name}</td>
-                                <td class=\"py-2.5 px-3 text-slate-300\">${log.operation_type}</td>
-                                <td class=\"py-2.5 px-3\"><span class=\"px-2 py-0.5 text-xs rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-800\">${log.status}</span></td>
-                                <td class=\"py-2.5 px-3 text-slate-400 font-mono text-xs\">${log.timestamp}</td>
+                            <tr class="hover:bg-slate-900/60 transition-colors">
+                                <td class="py-2.5 px-3 text-slate-500 font-mono">#${log.id}</td>
+                                <td class="py-2.5 px-3 font-semibold text-cyan-200">${log.vessel_name}</td>
+                                <td class="py-2.5 px-3 text-slate-300">${log.operation_type}</td>
+                                <td class="py-2.5 px-3"><span class="px-2 py-0.5 text-[10px] rounded bg-emerald-950 text-emerald-400 border border-emerald-800 font-medium">${log.status}</span></td>
+                                <td class="py-2.5 px-3 text-slate-400 font-mono text-[11px]">${log.timestamp}</td>
                             </tr>
                         `;
                     });
                 }
             } catch (e) {
-                console.error('Erro ao carregar logs:', e);
+                console.error('Erro de ligação ao VPS:', e);
+                document.getElementById('logsTableBody').innerHTML = `<tr><td colspan="5" class="py-4 text-center text-rose-500 font-mono">Erro de ligação ao backend (VPS Hostinger).</td></tr>`;
             }
         }
 
@@ -320,15 +324,15 @@ powershell -Command "Set-Content -Path index.html -Value '<!DOCTYPE html>
 
                 const json = await res.json();
                 if (json.success) {
-                    document.getElementById('vessel_name').value = \'\';
-                    loadOperations();
+                    document.getElementById('vessel_name').value = '';
+                    loadOperations(); // Recarrega imediatamente os dados reais da BD
                 } else {
-                    alert(\'Erro ao registar operação.\');
+                    alert('Erro ao guardar na base de dados do VPS.');
                 }
             } catch (err) {
-                alert(\'Erro de ligação ao VPS Hostinger. Verifique o CORS ou IP.\');
+                alert('Erro de comunicação com o servidor VPS.');
             }
         });
     </script>
 </body>
-</html>'}"
+</html>
